@@ -1,0 +1,14 @@
+[package]
+name = "beep-beep-graphql"
+version = "0.1.0"
+authors = ["Andreas Dzialocha <x1a@adz.garden>"]
+edition = "2018"
+
+[dependencies]
+bamboo-core = {git = "https://github.com/pietgeursen/bamboo-rs", branch = "bamboo-commit-388bafe"}
+beep-beep-db = { path = "../db" }
+fnv = "1.0.6"
+graphql-parser = "0.2.3"
+hex = "0.4.2"
+juniper = "0.14.2"
+log = "0.4.8"

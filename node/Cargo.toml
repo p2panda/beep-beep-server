@@ -1,0 +1,16 @@
+[package]
+name = "beep-beep-node"
+version = "0.1.0"
+authors = ["Andreas Dzialocha <x1a@adz.garden>"]
+edition = "2018"
+
+[dependencies]
+async-ctrlc = "1.0.0"
+async-std = { version = "1.5.0", features=["unstable","attributes"] }
+beep-beep-db = { path = "../db" }
+beep-beep-graphql = { path = "../graphql" }
+beep-beep-http = { path = "../http" }
+clap = "2.33.0"
+dotenv = "0.15.0"
+env_logger = "0.7.1"
+log = "0.4.8"

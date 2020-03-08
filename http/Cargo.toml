@@ -1,0 +1,13 @@
+[package]
+name = "beep-beep-http"
+version = "0.1.0"
+authors = ["Andreas Dzialocha <x02@adz.garden>"]
+edition = "2018"
+
+[dependencies]
+beep-beep-graphql = { path = "../graphql" }
+iron = "0.6.1"
+juniper = "0.14.2"
+juniper_iron = "0.6.2"
+log = "0.4.8"
+mount = "0.4.0"

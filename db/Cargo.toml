@@ -1,0 +1,11 @@
+[package]
+name = "beep-beep-db"
+version = "0.1.0"
+authors = ["Andreas Dzialocha <x09@adz.garden>"]
+edition = "2018"
+
+[dependencies]
+diesel = { version = "1.4.3", features = ["postgres", "r2d2"] }
+dotenv = "0.15.0"
+env_logger = "0.7.1"
+log = "0.4.8"
