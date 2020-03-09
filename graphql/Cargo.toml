@@ -5,7 +5,7 @@ authors = ["Andreas Dzialocha <x1a@adz.garden>"]
 edition = "2018"
 
 [dependencies]
-bamboo-core = {git = "https://github.com/pietgeursen/bamboo-rs", branch = "bamboo-commit-388bafe"}
+bamboo-core = { git = "https://github.com/pietgeursen/bamboo-rs", branch = "bamboo-commit-388bafe" }
 beep-beep-db = { path = "../db" }
 fnv = "1.0.6"
 graphql-parser = "0.2.3"
