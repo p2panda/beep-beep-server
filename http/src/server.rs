@@ -1,10 +1,11 @@
 use iron::prelude::*;
+use iron_cors::CorsMiddleware;
 use juniper_iron::{GraphQLHandler, GraphiQLHandler};
 use log::info;
 use mount::Mount;
 use std::net::SocketAddr;
 
-use beep_beep_graphql::{Query, Mutation, Context};
+use beep_beep_graphql::{Context, Mutation, Query};
 
 pub struct GraphQLServer {
     context: Context,
@@ -32,7 +33,11 @@ impl GraphQLServer {
         mount.mount("/", graphiql_endpoint);
         mount.mount("/graphql", graphql_endpoint);
 
-        let chain = Chain::new(mount);
+        let middleware = CorsMiddleware::with_allow_any();
+
+        let mut chain = Chain::new(mount);
+        chain.link_around(middleware);
+
         // @TODO: Handle bind errors
         Iron::new(chain).http(addr).unwrap();
     }
