@@ -7,9 +7,7 @@ pub struct Context {
 
 impl Context {
     pub fn new(pool: ConnectionPool) -> Self {
-        Self {
-            pool,
-        }
+        Self { pool }
     }
 }
 

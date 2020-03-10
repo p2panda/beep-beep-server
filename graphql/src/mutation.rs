@@ -1,7 +1,7 @@
 use bamboo_core::entry::decode;
-use bamboo_core::{YamfSignatory, YamfHash};
 use bamboo_core::{lipmaa, verify};
-use juniper::{FieldResult};
+use bamboo_core::{YamfHash, YamfSignatory};
+use juniper::FieldResult;
 
 use beep_beep_db::models::messages;
 
@@ -10,14 +10,14 @@ use crate::context::Context;
 pub struct Mutation;
 
 #[derive(juniper::GraphQLObject)]
-#[graphql(description="Bamboo entry")]
+#[graphql(description = "Bamboo entry")]
 struct Message {
     encoded_entry: String,
     encoded_payload: String,
 }
 
 #[derive(juniper::GraphQLInputObject)]
-#[graphql(description="Bamboo entry")]
+#[graphql(description = "Bamboo entry")]
 struct NewMessage {
     encoded_entry: String,
     encoded_payload: String,
@@ -55,9 +55,9 @@ impl Mutation {
             entry.seq_num as i64 - 1,
             entry.log_id as i64,
         )
-            .map_err(|e| "Error getting message")?
-            .map(|msg| msg.entry_bytes)
-            .map(|msg| hex::decode(msg).unwrap());
+        .map_err(|e| "Error getting message")?
+        .map(|msg| msg.entry_bytes)
+        .map(|msg| hex::decode(msg).unwrap());
 
         let lipmaa_msg = messages::get_message(
             &connection,
@@ -65,9 +65,9 @@ impl Mutation {
             lipmaa(entry.seq_num) as i64,
             entry.log_id as i64,
         )
-            .map_err(|e| "Error getting limpmaa message")?
-            .map(|msg| msg.entry_bytes)
-            .map(|msg| hex::decode(msg).unwrap());
+        .map_err(|e| "Error getting limpmaa message")?
+        .map(|msg| msg.entry_bytes)
+        .map(|msg| hex::decode(msg).unwrap());
 
         // Verify bamboo entry integrity
         let result = verify(
@@ -76,7 +76,7 @@ impl Mutation {
             lipmaa_msg.as_deref(),
             previous_msg.as_deref(),
         )
-            .map_err(|e| "Can't verify message")?;
+        .map_err(|e| "Can't verify message")?;
 
         let new_message = messages::NewMessage {
             author: &author,
