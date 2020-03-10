@@ -25,6 +25,18 @@ pub struct NewMessage<'a> {
     pub seqnum: i64,
 }
 
+pub fn get_last_message(
+    connection: &PgConnection,
+    author: String,
+    log_id: i64,
+) -> Result<Option<Message>, diesel::result::Error> {
+    dsl::messages
+        .order_by(dsl::seqnum.desc())
+        .filter(dsl::author.eq(author).and(dsl::log_id.eq(log_id)))
+        .first::<Message>(connection)
+        .optional()
+}
+
 pub fn get_message(
     connection: &PgConnection,
     author: String,
@@ -33,9 +45,9 @@ pub fn get_message(
 ) -> Result<Option<Message>, diesel::result::Error> {
     dsl::messages
         .filter(
-            dsl::seqnum.eq(seqnum)
-            .and(dsl::author.eq(author)
-            .and(dsl::log_id.eq(log_id))),
+            dsl::seqnum
+                .eq(seqnum)
+                .and(dsl::author.eq(author).and(dsl::log_id.eq(log_id))),
         )
         .first::<Message>(connection)
         .optional()
