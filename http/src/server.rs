@@ -33,6 +33,7 @@ impl GraphQLServer {
         mount.mount("/", graphiql_endpoint);
         mount.mount("/graphql", graphql_endpoint);
 
+        // Mount CORS middleware
         let middleware = CorsMiddleware::with_allow_any();
 
         let mut chain = Chain::new(mount);

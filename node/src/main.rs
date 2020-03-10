@@ -44,9 +44,6 @@ async fn main() {
         )
         .get_matches();
 
-    // Safe to unwrap because a value is required by CLI
-    let postgres_url = matches.value_of("postgres-url").unwrap().to_string();
-
     // Obtain ports to use for the GraphQL server
     let http_port: u16 = matches
         .value_of("http-port")
@@ -59,6 +56,9 @@ async fn main() {
         .parse()
         .expect("invalid GraphQL WebSocket server port");
 
+    // Safe to unwrap because a value is required by CLI
+    let postgres_url = matches.value_of("postgres-url").unwrap().to_string();
+
     let pool_size: u32 = matches
         .value_of("connection-pool-size")
         .unwrap()
@@ -69,10 +69,12 @@ async fn main() {
         panic!("--connection-pool-size must be > 1")
     }
 
+    // Get database pool
     let pool = beep_beep_db::get_connection_pool(postgres_url, pool_size);
 
     let context = Context::new(pool);
 
+    // Start HTTP server with GraphQL interface
     let graphql_server = GraphQLServer::new(context);
     graphql_server.serve(http_port, ws_port);
 
