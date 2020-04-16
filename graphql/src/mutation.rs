@@ -1,6 +1,7 @@
 use bamboo_core::entry::decode;
-use bamboo_core::{lipmaa, verify};
 use bamboo_core::{YamfHash, YamfSignatory};
+use bamboo_core::{lipmaa, verify};
+use cddl::validation::{cbor::validate_cbor_from_slice};
 use juniper::FieldResult;
 
 use beep_beep_db::models::messages;
@@ -35,6 +36,10 @@ impl Mutation {
         let entry_bytes = hex::decode(&message.encoded_entry).map_err(|e| e.to_string())?;
         let payload_bytes = hex::decode(&message.encoded_payload).map_err(|e| e.to_string())?;
 
+        // Verify payload
+        validate_cbor_from_slice(&context.cddl_schema, &payload_bytes)
+            .map_err(|e| "Invalid payload format")?;
+
         // Decode bamboo entry
         let entry = decode(&entry_bytes).map_err(|e| "Can't decode message")?;
 
@@ -55,9 +60,9 @@ impl Mutation {
             entry.seq_num as i64 - 1,
             entry.log_id as i64,
         )
-        .map_err(|e| "Error getting message")?
-        .map(|msg| msg.entry_bytes)
-        .map(|msg| hex::decode(msg).unwrap());
+            .map_err(|e| "Error getting message")?
+            .map(|msg| msg.entry_bytes)
+            .map(|msg| hex::decode(msg).unwrap());
 
         let lipmaa_msg = messages::get_message(
             &connection,
@@ -65,9 +70,9 @@ impl Mutation {
             lipmaa(entry.seq_num) as i64,
             entry.log_id as i64,
         )
-        .map_err(|e| "Error getting limpmaa message")?
-        .map(|msg| msg.entry_bytes)
-        .map(|msg| hex::decode(msg).unwrap());
+            .map_err(|e| "Error getting limpmaa message")?
+            .map(|msg| msg.entry_bytes)
+            .map(|msg| hex::decode(msg).unwrap());
 
         // Verify bamboo entry integrity
         let result = verify(
@@ -76,7 +81,7 @@ impl Mutation {
             lipmaa_msg.as_deref(),
             previous_msg.as_deref(),
         )
-        .map_err(|e| "Can't verify message")?;
+            .map_err(|e| "Can't verify message")?;
 
         let new_message = messages::NewMessage {
             author: &author,

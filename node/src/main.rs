@@ -1,5 +1,6 @@
 use async_ctrlc::CtrlC;
 use clap::{App, Arg};
+use std::fs;
 
 use beep_beep_graphql::Context;
 use beep_beep_http::GraphQLServer;
@@ -42,6 +43,13 @@ async fn main() {
                 .value_name("PORT")
                 .help("Port for the GraphQL WebSocket server"),
         )
+        .arg(
+            Arg::with_name("cddl-schema")
+                .default_value("schema.cddl")
+                .long("cddl-schema")
+                .value_name("FILE")
+                .help("Path for CDDL schema file"),
+        )
         .get_matches();
 
     // Obtain ports to use for the GraphQL server
@@ -72,7 +80,11 @@ async fn main() {
     // Get database pool
     let pool = beep_beep_db::get_connection_pool(postgres_url, pool_size);
 
-    let context = Context::new(pool);
+    // Read CDDL schema
+    let cddl_schema = fs::read_to_string(matches.value_of("cddl-schema").unwrap().to_string())
+        .expect("could not read cddl schema file");
+
+    let context = Context::new(pool, cddl_schema);
 
     // Start HTTP server with GraphQL interface
     let graphql_server = GraphQLServer::new(context);

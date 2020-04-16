@@ -1,0 +1,22 @@
+message-root = $message .within message-content
+
+message-content = {
+category: text,
+  + message-label => message-value,
+}
+
+message-label = text
+message-value = any
+
+$message /= {
+  category: "mascot",
+  name: text,
+  species: text,
+  year_of_birth: uint,
+}
+
+$message /= {
+  category: "user",
+  firstname: text,
+  lastname: text,
+}
