@@ -1,7 +1,7 @@
 message-root = $message .within message-content
 
 message-content = {
-category: text,
+  category: text,
   + message-label => message-value,
 }
 
