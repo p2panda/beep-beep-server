@@ -5,6 +5,17 @@
 * Rust nightly
 * PostgreSQL database
 
+## Setup
+
+Run
+
+```
+$ cargo install diesel_cli
+$ cd db
+$ diesel migration run
+
+```
+
 ## Usage
 
 ```
