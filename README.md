@@ -7,12 +7,30 @@
 
 ## Setup
 
-Run
+Install requirements for your system: Rust and Postgres
+
+For mac, install [Postgres.app](https://postgresapp.com/de/) and then
+```
+$ brew install rustup
+```
+
+Install rust and diesel, which is required for running database migrations
+```
+$ rustup-init
+$ rustup default nightly
+$ cargo install diesel_cli --no-default-features --features postgres
+```
+
+Create postgres database
+```
+$ createdb beep-beep-development
+```
+
+Init database
 
 ```
-$ cargo install diesel_cli
 $ cd db
-$ diesel migration run
+$ diesel migration run --database-url=postgres://postgres:postgres@localhost/beep-beep-development
 
 ```
 
