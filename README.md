@@ -1,41 +1,38 @@
 # beep-beep-server
 
+This is an experimental implementation of a p2p server based on the proof-of-concept introduced with [beep-beep](https://github.com/p2panda/beep-beep). It should serve as a playground to play with more concrete implementation details :goggles: :lab_coat:.
+
 ## Requirements
 
-* Rust nightly
+* Rust [nightly](https://github.com/rust-lang/rustup#working-with-nightly-rust)
 * PostgreSQL database
+* Diesel [CLI](https://github.com/diesel-rs/diesel/tree/master/diesel_cli)
 
 ## Setup
 
-Install requirements for your system: Rust and Postgres
+1. Make sure you have the above mentioned requirements up and running.
 
-For mac, install [Postgres.app](https://postgresapp.com/de/) and then
-```
-$ brew install rustup
-```
+2. Create postgres database:
 
-Install rust and diesel, which is required for running database migrations
-```
-$ rustup-init
-$ rustup default nightly
-$ cargo install diesel_cli --no-default-features --features postgres
-```
+  ```
+  $ createdb beep-beep-development
+  ```
 
-Create postgres database
-```
-$ createdb beep-beep-development
-```
+3. Run database migration in `db` folder:
 
-Init database
-
-```
-$ cd db
-$ diesel migration run --database-url=postgres://postgres:postgres@localhost/beep-beep-development
-
-```
+  ```
+  $ cd db
+  $ diesel migration run --database-url=postgres://postgres:postgres@localhost/beep-beep-development
+  ```
 
 ## Usage
 
 ```
+// Run the server on default port 8000
 RUST_LOG=info cargo run -- --postgres-url=postgres://postgres:postgres@localhost/beep-beep-development
 ```
+
+## Further links
+
+* https://github.com/p2panda/beep-beep-client/
+* https://github.com/p2panda/design-document
