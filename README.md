@@ -1,6 +1,6 @@
 # beep-beep-server
 
-This is an experimental implementation of a p2p server based on the proof-of-concept introduced with [beep-beep](https://github.com/p2panda/beep-beep). It should serve as a playground to play with more concrete implementation details :goggles: :lab_coat:.
+This is an experimental implementation of a p2p server based on the proof-of-concept introduced with [beep-beep](https://github.com/p2panda/beep-beep). It should serve as a playground to play with more concrete implementation details. :goggles: :lab_coat:
 
 ## Requirements
 
