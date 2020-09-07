@@ -36,3 +36,7 @@ RUST_LOG=info cargo run -- --postgres-url=postgres://postgres:postgres@localhost
 
 * https://github.com/p2panda/beep-beep-client/
 * https://github.com/p2panda/design-document
+
+## License
+
+GNU Affero General Public License v3.0 `AGPL-3.0`
